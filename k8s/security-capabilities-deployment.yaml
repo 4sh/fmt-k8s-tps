@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security-capabilities
+  namespace: tp3
+  labels:
+    app: security-capabilities
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: security-capabilities
+  template:
+    metadata:
+      name: security-capabilities
+      labels:
+        app: security-capabilities
+    spec:
+      containers:
+        - name: security-capabilities
+          image: busybox:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          command: ["/bin/sh", "-c", "while true; do ping google.fr; done"]
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+      restartPolicy: Always

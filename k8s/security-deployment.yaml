@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security
+  namespace: tp3
+  labels:
+    app: security
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: security
+  template:
+    metadata:
+      name: security
+      labels:
+        app: security
+    spec:
+      securityContext:
+      containers:
+        - name: security
+          image: debian:trixie-slim
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          securityContext:
+            runAsNonRoot: true
+          command: ["/bin/sh", "-c", "while true; do echo 'Hello from security app!'; done"]
+      restartPolicy: Always
+      
