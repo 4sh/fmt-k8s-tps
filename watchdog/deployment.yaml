@@ -39,4 +39,11 @@ spec:
         env:
           - name: PYTHONPATH
             value: $PYTHONPATH:/
+        volumeMounts:
+          - mountPath: /watchdog/certs
+            name: watchdog-certs
+      volumes:
+      - name: watchdog-certs
+        secret:
+          secretName: watchdog-certs
 
