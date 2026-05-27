@@ -1,0 +1,17 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: Disabled
+    kustomize.toolkit.fluxcd.io/ssa: Ignore
+  name: guestbook
+  namespace: tp6
+spec:
+  force: false
+  interval: 10m0s
+  targetNamespace: tp6
+  path: k8s
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: fmt-repo

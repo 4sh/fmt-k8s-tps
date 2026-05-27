@@ -1,0 +1,14 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: Disabled
+    kustomize.toolkit.fluxcd.io/ssa: Ignore
+  name: fmt-repo
+  namespace: tp6
+spec:
+  interval: 1m0s
+  ref:
+    name: refs/heads/tp6
+  timeout: 60s
+  url: https://github.com/4sh/fmt-k8s-tps.git

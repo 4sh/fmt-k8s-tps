@@ -1,0 +1,31 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: redis
+  namespace: tp6
+spec:
+  interval: 15m
+  timeout: 5m
+  chart:
+    spec:
+      chart: redis
+      version: '0.27.*'
+      sourceRef:
+        kind: HelmRepository
+        name: redis
+      interval: 5m
+  releaseName: redis
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  test:
+    enable: true
+  driftDetection:
+    mode: enabled
+  valuesFrom:
+    - kind: ConfigMap
+      name: redis-values
+      valuesKey: values.yaml
