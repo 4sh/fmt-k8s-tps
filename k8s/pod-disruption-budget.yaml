@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: nginx-pdb
+  namespace: tp5
+spec:
+  minAvailable: 4
+  selector:
+    matchLabels:
+      test: disruptionbudget

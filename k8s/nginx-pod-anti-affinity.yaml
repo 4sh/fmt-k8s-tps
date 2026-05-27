@@ -15,6 +15,16 @@ spec:
       labels:
         test: anti-affinity
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: topology.kubernetes.io/region
+                    operator: In
+                    values:
+                      - europe-west9
+              topologyKey: "kubernetes.io/hostname"
       tolerations:
         - effect: NoSchedule
           operator: Equal
