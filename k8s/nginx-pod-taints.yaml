@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-pod-taints
+  namespace: tp5
+  labels:
+    test: taints
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      test: taints
+  template:
+    metadata:
+      labels:
+        test: taints
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              test: taints
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              cpu: 50m
+            limits:
+              cpu: 100m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-taints
+spec:
+  selector:
+    test: taints
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP

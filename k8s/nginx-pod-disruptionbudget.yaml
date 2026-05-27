@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-pod-disruptionbudget
+  namespace: tp5
+  labels:
+    test: disruptionbudget
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      test: disruptionbudget
+  template:
+    metadata:
+      labels:
+        test: disruptionbudget
+    spec:
+      tolerations:
+        - effect: NoSchedule
+          operator: Equal
+          key: app
+          value: nginx
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi

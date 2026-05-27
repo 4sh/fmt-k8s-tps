@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-pod-anti-affinity
+  namespace: tp5
+  labels:
+    test: anti-affinity
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      test: anti-affinity
+  template:
+    metadata:
+      labels:
+        test: anti-affinity
+    spec:
+      tolerations:
+        - effect: NoSchedule
+          operator: Equal
+          key: app
+          value: nginx
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-anti-affinity
+spec:
+  selector:
+    test: anti-affinity
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
