@@ -1,0 +1,40 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  labels:
+    app: watchdog
+  name: mutating-webhook-configuration
+  namespace: watchdog
+
+webhooks:
+  - admissionReviewVersions:
+      - v1beta1
+    clientConfig:
+      caBundle: <CHANGE_ME>
+      service:
+        name: watchdog
+        namespace: watchdog
+        path: /mutate/pod
+        port: 443
+    failurePolicy: Fail
+    matchPolicy: Exact
+    name: watchdog.watchdog.svc.cluster.local
+    namespaceSelector:
+      matchExpressions:
+        - key: customer
+          operator: In
+          values:
+            - formation
+    reinvocationPolicy: Never
+    rules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+        resources:
+          - pods
+        scope: 'Namespaced'
+    sideEffects: None
+    timeoutSeconds: 5
