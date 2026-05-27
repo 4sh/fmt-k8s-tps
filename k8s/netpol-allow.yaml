@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-db-access
+  namespace: tp4
+spec:
+  podSelector:
+    matchLabels:
+      test: netpol
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              role: allowed
+      ports:
+        - protocol: TCP
+          port: 5432

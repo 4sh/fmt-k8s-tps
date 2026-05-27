@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: denied-pod
-  namespace: admin-tp5
+  namespace: tp4
   labels:
     test: netpol
     role: denied
