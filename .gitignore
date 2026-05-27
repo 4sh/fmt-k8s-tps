@@ -1,0 +1,26 @@
+# Local Terraform state and caches
+.terraform/
+.terraform.lock.hcl.bak
+
+# State files - NEVER commit
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Plan output
+*.tfplan
+*.tfplan.*
+
+# Sensitive variable files
+*.tfvars
+*.tfvars.json
+!terraform.tfvars
+
+# Crash logs
+crash.log
+crash.*.log
+
+# IDE
+.idea/
+.vscode/
+*.iml
