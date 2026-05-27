@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-values
+data:
+  values.yaml: |
+    architecture: replication
+    auth:
+      enabled: true
+      password: redispassword
+    persistence:
+      enabled: false
