@@ -25,7 +25,9 @@ spec:
             - containerPort: 80
               protocol: TCP
           securityContext:
+            readOnlyRootFilesystem: true
             runAsNonRoot: true
+            runAsUser: 2000
           command: ["/bin/sh", "-c", "while true; do echo 'Hello from security app!'; done"]
       restartPolicy: Always
       
