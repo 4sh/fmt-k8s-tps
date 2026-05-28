@@ -1,0 +1,36 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: main-gateway
+  namespace: istio-ingress
+spec:
+  gatewayClassName: istio
+  listeners:
+    - allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              main-gateway-access: "true"
+      hostname: "myapp.$ME.qsh-k8s-advanced.quatre.app"
+      name: k8s-https
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: k8s-wildcard-cert
+        mode: Terminate
+    - allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              main-gateway-access: "true"
+      hostname: "myapp.$ME.qsh-k8s-advanced.quatre.app"
+      name: k8s-http
+      port: 80
+      protocol: HTTP

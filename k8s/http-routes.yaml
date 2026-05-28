@@ -1,0 +1,38 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: example-multiple-app-https-route
+  namespace: tp4
+spec:
+  parentRefs:
+    - name: main-gateway
+      namespace: istio-ingress
+  hostnames:
+    - "myapp.$ME.qsh-k8s-advanced.quatre.app"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /app1
+      backendRefs:
+        - name: multiple-service-1
+          port: 80
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /app2
+      backendRefs:
+        - name: multiple-service-2
+          port: 80
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
