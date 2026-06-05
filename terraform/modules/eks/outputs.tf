@@ -33,3 +33,8 @@ output "oidc_provider_arn" {
   value       = aws_iam_openid_connect_provider.cluster.arn
 }
 
+output "ebs_csi_driver_role_arn" {
+  description = "ARN of the IAM role used by the EBS CSI driver via IRSA"
+  value       = aws_iam_role.ebs_csi_driver.arn
+}
+
