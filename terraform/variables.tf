@@ -91,3 +91,9 @@ variable "vpc_cidr" {
   type        = string
   default     = "10.0.0.0/16"
 }
+
+variable "admin_iam_arns" {
+  description = "List of IAM principal ARNs (users or roles) granted cluster-admin access via EKS access entries"
+  type        = list(string)
+  default     = []
+}

@@ -75,6 +75,10 @@ resource "aws_eks_cluster" "main" {
 
   enabled_cluster_log_types = var.cluster_enabled_log_types
 
+  access_config {
+    authentication_mode = "API_AND_CONFIG_MAP"
+  }
+
   vpc_config {
     subnet_ids              = var.subnet_ids
     endpoint_private_access = var.endpoint_private_access
@@ -109,5 +113,27 @@ resource "aws_iam_openid_connect_provider" "cluster" {
   thumbprint_list = [data.tls_certificate.cluster.certificates[0].sha1_fingerprint]
 
   tags = var.tags
+}
+
+resource "aws_eks_access_entry" "admin" {
+  for_each = toset(var.admin_iam_arns)
+
+  cluster_name  = aws_eks_cluster.main.name
+  principal_arn = each.value
+  type          = "STANDARD"
+
+  tags = var.tags
+}
+
+resource "aws_eks_access_policy_association" "admin" {
+  for_each = toset(var.admin_iam_arns)
+
+  cluster_name  = aws_eks_cluster.main.name
+  principal_arn = each.value
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
+  }
 }
 

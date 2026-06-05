@@ -17,6 +17,7 @@ module "vpc" {
 module "eks" {
   source = "./modules/eks"
 
+  admin_iam_arns  = var.admin_iam_arns
   cluster_name    = local.cluster_name
   cluster_version = var.cluster_version
   subnet_ids      = module.vpc.private_subnet_ids

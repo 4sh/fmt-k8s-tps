@@ -49,3 +49,9 @@ variable "tags" {
   default     = {}
 }
 
+variable "admin_iam_arns" {
+  description = "List of IAM principal ARNs granted cluster-admin access via EKS access entries"
+  type        = list(string)
+  default     = []
+}
+
