@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-platform-app
+  namespace: app-dev
   labels:
     app: nginx-platform-app
 spec:
@@ -16,7 +17,7 @@ spec:
     spec:
       tolerations:
         - key: "environment"
-          operator: "Equals"
+          operator: "Equal"
           value: "dev"
           effect: "NoSchedule"
       containers:
