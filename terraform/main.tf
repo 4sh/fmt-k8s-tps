@@ -41,3 +41,14 @@ module "eks_node_group" {
   depends_on = [module.eks]
 }
 
+module "eks_addons" {
+  source = "./modules/eks-addons"
+
+  cluster_name            = module.eks.cluster_name
+  cluster_oidc_issuer_url = module.eks.cluster_oidc_issuer_url
+  oidc_provider_arn       = module.eks.oidc_provider_arn
+  tags                    = local.common_tags
+
+  depends_on = [module.eks_node_group]
+}
+
