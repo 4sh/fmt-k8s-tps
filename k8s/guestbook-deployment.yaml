@@ -22,9 +22,18 @@ spec:
               value: "redis-master:6379"
             - name: REDIS_PASSWORD
               value: "redispassword"
+            - name: DD_TRACE_AGENT_URL
+              value: 'unix:///var/run/datadog/apm.socket'
           resources:
             requests:
               cpu: 100m
               memory: 100Mi
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: apmsocketpath
+              mountPath: /var/run/datadog
+      volumes:
+        - hostPath:
+            path: /var/run/datadog/
+          name: apmsocketpath

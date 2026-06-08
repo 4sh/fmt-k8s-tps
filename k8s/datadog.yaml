@@ -13,7 +13,7 @@ spec:
         keyName: "api-key"
     registry: "eu.gcr.io/datadoghq"
     tags:
-      - "env:dev"
+      - "env:$ME"
   features:
     clusterChecks:
       enabled: true
