@@ -30,7 +30,7 @@ spec:
     - metadata:
         name: mongo-persistent-storage
       spec:
-        storageClassName: "gp2"
+        storageClassName: "encrypted-ebs"
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
